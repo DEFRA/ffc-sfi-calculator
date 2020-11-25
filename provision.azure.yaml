@@ -1,5 +1,5 @@
 resources:
   queues:
-    - name: update-agreement
+    - name: updateAgreement
   topics:
-    - name: agreement-changed
+    - name: agreementChanged
