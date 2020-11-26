@@ -10,8 +10,8 @@
   },
   "author": "Defra",
   "contributors": [
-    "Steve Hunt <steven.hunt@defra.gov.uk>",
-    "Paul Andrews <paul.andrews@defra.gov.uk>"
+    "Paul Andrews <paul.andrews@defra.gov.uk>",
+    "Steve Hunt <steven.hunt@defra.gov.uk>"
   ],
   "license": "OGL-UK-3.0",
   "dependencies": {
