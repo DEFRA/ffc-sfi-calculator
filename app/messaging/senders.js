@@ -24,7 +24,7 @@ process.on('SIGINT', async () => {
 })
 
 module.exports = {
-  publish: async function (agreementData) {
+  updateAgreement: async function (agreementData) {
     agreementSender = new MessageSender(messagingConfig.updateAgreementQueue)
     await agreementSender.connect()
     const message = createMessage(agreementData)
