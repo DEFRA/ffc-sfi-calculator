@@ -7,7 +7,7 @@ const sharedConfig = {
 
 module.exports = {
   agreementCalculatorSubscription: {
-    address: process.env.AGREEMENT_CALCULATOR_SUBSCRIPTION_ADDRESS,
+    address: process.env.AGREEMENT_CHANGED_SUBSCRIPTION_ADDRESS,
     topic: process.env.AGREEMENT_CHANGED_TOPIC_ADDRESS,
     type: 'subscription',
     ...sharedConfig
@@ -17,6 +17,6 @@ module.exports = {
     type: 'queue',
     ...sharedConfig
   },
-  messageTypePrefix: 'uk.gov.ffc.sfi',
+  updateAgreementMessageType: 'uk.gov.ffc.sfi.agreement.update',
   messageSource: 'ffc-sfi-calculator'
 }

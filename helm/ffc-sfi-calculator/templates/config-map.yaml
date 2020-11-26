@@ -2,7 +2,7 @@
 {{- define "ffc-sfi-calculator.config-map" -}}
 data:
   AGREEMENT_CHANGED_TOPIC_ADDRESS: {{ quote .Values.container.agreementChangedTopicAddress }}
-  AGREEMENT_CALCULATOR_SUBSCRIPTION_ADDRESS: {{ quote .Values.container.agreementCalculatorSubscriptionAddress }}
+  AGREEMENT_CHANGED_SUBSCRIPTION_ADDRESS: {{ quote .Values.container.agreementChangedSubscriptionAddress }}
   MESSAGE_QUEUE_HOST: {{ quote .Values.container.messageQueueHost }}
   NODE_ENV: {{ quote .Values.environment }}
   PORT: {{ quote .Values.container.port }}

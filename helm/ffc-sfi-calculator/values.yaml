@@ -34,7 +34,7 @@ container:
   messageQueueHost: dummy
   updateAgreementQueueAddress: update-agreement
   agreementChangedTopicAddress: agreement-changed
-  agreementCalculatorSubscriptionAddress: agreement-calculator
+  agreementChangedSubscriptionAddress: agreement-changed
 
 livenessProbe:
   path: /healthz

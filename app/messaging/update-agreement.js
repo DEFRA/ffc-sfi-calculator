@@ -5,7 +5,7 @@ let agreementSender
 
 const createMessage = agreementData => ({
   body: agreementData,
-  type: `${messagingConfig.messageTypePrefix}.agreement.update`,
+  type: messagingConfig.updateAgreementMessageType,
   source: messagingConfig.messageSource
 })
 
