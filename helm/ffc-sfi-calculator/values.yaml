@@ -6,6 +6,10 @@ image: ffc-sfi-calculator
 
 labels: {}
 
+azureIdentity:
+  clientID: not-a-real-clientID
+  resourceID: not-a-real-resourceID
+
 containerConfigMap:
   name: ffc-sfi-calculator-config-map
 
@@ -27,6 +31,10 @@ container:
   readOnlyRootFilesystem: true
   allowPrivilegeEscalation: false
   port: 3000
+  messageQueueHost: dummy
+  updateAgreementQueueAddress: update-agreement
+  agreementChangedTopicAddress: agreement-changed
+  agreementChangedSubscriptionAddress: agreement-changed
 
 livenessProbe:
   path: /healthz

@@ -1,6 +1,10 @@
 {{- include "ffc-helm-library.container-config-map" (list . "ffc-sfi-calculator.config-map") -}}
 {{- define "ffc-sfi-calculator.config-map" -}}
 data:
+  AGREEMENT_CHANGED_TOPIC_ADDRESS: {{ quote .Values.container.agreementChangedTopicAddress }}
+  AGREEMENT_CHANGED_SUBSCRIPTION_ADDRESS: {{ quote .Values.container.agreementChangedSubscriptionAddress }}
+  SERVICE_BUS_HOST: {{ quote .Values.container.messageQueueHost }}
   NODE_ENV: {{ quote .Values.environment }}
   PORT: {{ quote .Values.container.port }}
+  UPDATE_AGREEMENT_QUEUE_ADDRESS: {{ quote .Values.container.updateAgreementQueueAddress }}
 {{- end -}}

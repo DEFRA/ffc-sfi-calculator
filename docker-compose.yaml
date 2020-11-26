@@ -7,4 +7,10 @@ services:
       target: production
     image: ffc-sfi-calculator
     container_name: ffc-sfi-calculator
-    environment: {}
+    environment:
+      AGREEMENT_CHANGED_TOPIC_ADDRESS: ${AGREEMENT_CHANGED_TOPIC_ADDRESS:-notset}
+      AGREEMENT_CHANGED_SUBSCRIPTION_ADDRESS: ${AGREEMENT_CHANGED_SUBSCRIPTION_ADDRESS:-notset}
+      SERVICE_BUS_HOST: ${SERVICE_BUS_HOST:-notset}
+      SERVICE_BUS_PASSWORD: ${SERVICE_BUS_PASSWORD:-notset}
+      SERVICE_BUS_USER: ${SERVICE_BUS_USER:-notset}
+      UPDATE_AGREEMENT_QUEUE_ADDRESS: ${UPDATE_AGREEMENT_QUEUE_ADDRESS:-notset}
