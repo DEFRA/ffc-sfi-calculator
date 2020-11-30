@@ -5,8 +5,9 @@
   "homepage": "https://github.com/DEFRA/ffc-sfi-calculator",
   "main": "app/index.js",
   "scripts": {
-    "test": "jest --runInBand",
-    "start:watch": "nodemon --inspect=0.0.0.0 --ext js --legacy-watch app/index.js"
+    "lint": "npx standard",
+    "start:watch": "nodemon --inspect=0.0.0.0 --ext js --legacy-watch app/index.js",
+    "test": "npm run lint && jest --runInBand"
   },
   "author": "Defra",
   "contributors": [
