@@ -1,6 +1,9 @@
 const server = require('./server')
 
 const init = async () => {
+  const agreementChangedAction = require('./messaging/agreement-changed')
+  require('./messaging/receivers').startAgreementChanged(agreementChangedAction)
+
   await server.start()
   console.log('Server running on %s', server.info.uri)
 }
