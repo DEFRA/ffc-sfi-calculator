@@ -3,11 +3,13 @@ const { MessageSender } = require('ffc-messaging')
 
 let agreementSender
 
-const createMessage = agreementData => ({
-  body: agreementData,
-  type: messagingConfig.updateAgreementMessageType,
-  source: messagingConfig.messageSource
-})
+const createMessage = (agreementData) => {
+  const msgBase = {
+    type: messagingConfig.updateAgreementMessageType,
+    source: messagingConfig.messageSource
+  }
+  return { ...agreementData, ...msgBase }
+}
 
 async function stop () {
   await agreementSender.closeConnection()
@@ -27,8 +29,9 @@ module.exports = {
   updateAgreement: async function (agreementData) {
     agreementSender = new MessageSender(messagingConfig.updateAgreementQueue)
     await agreementSender.connect()
-    const message = createMessage(agreementData)
-    await agreementSender.sendMessage(message)
+    const msg = createMessage(agreementData)
+    console.log('sending message', msg)
+    await agreementSender.sendMessage(msg)
     await agreementSender.closeConnection()
   }
 }
