@@ -17,6 +17,6 @@ module.exports = {
     type: 'queue',
     ...sharedConfig
   },
-  updateAgreementMessageType: 'uk.gov.ffc.sfi.agreement.update',
-  messageSource: 'ffc-sfi-calculator'
+  updateAgreementMsgType: 'uk.gov.ffc.sfi.agreement.update',
+  msgSrc: 'ffc-sfi-calculator'
 }

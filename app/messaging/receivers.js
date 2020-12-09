@@ -1,4 +1,4 @@
-const messagingConfig = require('../config/messaging')
+const msgCfg = require('../config/messaging')
 const { MessageReceiver } = require('ffc-messaging')
 
 let calculatorReceiver
@@ -18,8 +18,8 @@ process.on('SIGINT', async () => {
 })
 
 module.exports = {
-  startAgreementChanged: async function (messageAction) {
-    calculatorReceiver = new MessageReceiver(messagingConfig.agreementCalculatorSubscription, messageAction)
+  startAgreementChanged: async function (msgAction) {
+    calculatorReceiver = new MessageReceiver(msgCfg.agreementCalculatorSubscription, msgAction)
     await calculatorReceiver.connect()
   }
 }
