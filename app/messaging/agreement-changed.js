@@ -1,7 +1,7 @@
 function calcPayment (k, v) {
-  const totalArea = Number(v.totalArea)
+  const userInput = Number(v.userInput)
   // set default value of 100 if area isn't a number
-  return Number.isNaN(totalArea) ? 100 : totalArea * v.paymentRate
+  return Number.isNaN(userInput) ? 100 : userInput * v.paymentRate
 }
 
 module.exports = async function (msg) {
