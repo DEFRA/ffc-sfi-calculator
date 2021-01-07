@@ -1,7 +1,23 @@
+const mee = require('math-expression-evaluator')
+
 function calcPayment (k, v) {
-  const userInput = Number(v.userInput)
-  // set default value of 100 if area isn't a number
-  return Number.isNaN(userInput) ? 100 : userInput * v.paymentRate
+  let exp = v.expression
+  console.log(`Calculation expression for '${k}', '${exp}'`)
+  const tokens = exp.split(' ')
+
+  tokens.forEach(token => {
+    const val = v[token]
+    if (val) {
+      exp = exp.replace(token, Number(val))
+    }
+  })
+
+  try {
+    return mee.eval(exp)
+  } catch (err) {
+    console.error(`Error generated during evaluation of expression: '${exp}'. Are all variables resolvable? Returning default value of 0.`, err)
+    return 0
+  }
 }
 
 module.exports = async function (msg) {
