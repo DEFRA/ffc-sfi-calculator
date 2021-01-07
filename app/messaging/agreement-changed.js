@@ -12,12 +12,13 @@ function calcPayment (k, v) {
     }
   })
 
+  let result = 0
   try {
-    return mee.eval(exp)
+    result = mee.eval(exp)
   } catch (err) {
     console.error(`Error generated during evaluation of expression: '${exp}'. Are all variables resolvable? Returning default value of 0.`, err)
-    return 0
   }
+  return result
 }
 
 module.exports = async function (msg) {
