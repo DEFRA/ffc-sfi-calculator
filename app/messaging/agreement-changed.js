@@ -1,16 +1,12 @@
-function resolveExpression (standard, exp) {
-  return exp.split(' ').reduce((acc, cur) => {
-    const val = standard[cur]
-    return val ? acc.replace(cur, Number(val)) : acc
-  }, exp)
-}
+const { eval: eeval, parse } = require('expression-eval')
 
-function evalExpression (exp) {
+function evalExpression (ctx, exp) {
   let result = 0
   try {
-    result = eval(exp)
+    const ast = parse(exp)
+    result = eeval(ast, ctx)
   } catch (err) {
-    console.error(`Error generated during evaluation of expression: '${exp}'. Have all variables been resolved? Returning default value of 0.`, err)
+    console.error(`Error generated during evaluation of expression: '${exp}' with context: '${JSON.stringify(ctx)}'. Have all variables been resolved? Returning default value of 0.`, err)
   }
   return result
 }
@@ -18,8 +14,7 @@ function evalExpression (exp) {
 function selectExpression (standard) {
   const calcs = standard.calculation
   for (let i = 0; i < calcs.length; i++) {
-    const conditionExp = resolveExpression(standard, calcs[i].condition)
-    const conditionResult = evalExpression(conditionExp)
+    const conditionResult = evalExpression(standard, calcs[i].condition)
     if (conditionResult) {
       return calcs[i].expression
     }
@@ -31,9 +26,7 @@ function selectExpression (standard) {
 function calcPayment (standard) {
   const exp = selectExpression(standard)
   console.log(`Calculation expression used for '${standard.id}' - '${exp}'`)
-  const expForEval = resolveExpression(standard, exp)
-
-  return evalExpression(expForEval)
+  return evalExpression(standard, exp)
 }
 
 module.exports = async function (msg) {
