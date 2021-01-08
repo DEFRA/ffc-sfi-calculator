@@ -11,11 +11,15 @@ function evalExpression (ctx, exp) {
   return result
 }
 
-function selectExpression (standard) {
-  const calcs = standard.calculation
+function selectExpression (ctx) {
+  const calcs = ctx.calculations
   for (let i = 0; i < calcs.length; i++) {
-    const conditionResult = evalExpression(standard, calcs[i].condition)
-    if (conditionResult) {
+    const conditionExp = calcs[i].condition
+    let conditionResult
+    if (conditionExp) {
+      conditionResult = evalExpression(ctx, conditionExp)
+    }
+    if (conditionResult || !conditionExp) {
       return calcs[i].expression
     }
   }
