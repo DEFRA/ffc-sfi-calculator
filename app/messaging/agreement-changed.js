@@ -1,16 +1,45 @@
-function calcPayment (k, v) {
-  const userInput = Number(v.userInput)
-  // set default value of 100 if area isn't a number
-  return Number.isNaN(userInput) ? 100 : userInput * v.paymentRate
+const { eval: eeval, parse } = require('expression-eval')
+
+function evalExpression (ctx, exp) {
+  let result = 0
+  try {
+    const ast = parse(exp)
+    result = eeval(ast, ctx)
+  } catch (err) {
+    console.error(`Error generated during evaluation of expression: '${exp}' with context: '${JSON.stringify(ctx)}'. Have all variables been resolved? Returning default value of 0.`, err)
+  }
+  return result
+}
+
+function selectExpression (ctx) {
+  const calcs = ctx.calculations
+  for (let i = 0; i < calcs.length; i++) {
+    const conditionExp = calcs[i].condition
+    let conditionResult
+    if (conditionExp) {
+      conditionResult = evalExpression(ctx, conditionExp)
+    }
+    if (conditionResult || !conditionExp) {
+      return calcs[i].expression
+    }
+  }
+  console.error('No conditions were matched to provide an expression. Check the coverage of the conditions. Default expression will be used.')
+  return 'userInput * paymentRate'
+}
+
+function calcPayment (standard) {
+  const exp = selectExpression(standard)
+  console.log(`Calculation expression used for '${standard.id}' - '${exp}'`)
+  return evalExpression(standard, exp)
 }
 
 module.exports = async function (msg) {
   const { body, correlationId } = msg
   let totalPayment = 0
 
-  Object.entries(body).forEach(([k, v]) => {
-    const payment = calcPayment(k, v)
-    body[k].payment = payment
+  Object.entries(body).forEach(([id, standard]) => {
+    const payment = calcPayment(standard)
+    body[id].payment = payment
     totalPayment += payment
   })
   body.totalPayment = totalPayment
