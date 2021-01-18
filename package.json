@@ -17,6 +17,7 @@
   "license": "OGL-UK-3.0",
   "dependencies": {
     "@hapi/hapi": "^20.0.3",
+    "bunyan": "^1.8.15",
     "expression-eval": "^4.0.0",
     "ffc-messaging": "^1.0.7"
   },
