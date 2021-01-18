@@ -1,5 +1,5 @@
 const { eval: eeval, parse } = require('expression-eval')
-const { log } = require('../services/logger')
+const { log, logError } = require('../services/logger')
 
 function evalExpression (ctx, exp) {
   let result = 0
@@ -7,7 +7,7 @@ function evalExpression (ctx, exp) {
     const ast = parse(exp)
     result = eeval(ast, ctx)
   } catch (err) {
-    log(`Error generated during evaluation of expression: '${exp}' with context: '${JSON.stringify(ctx)}'. Have all variables been resolved? Returning default value of 0.`, err)
+    logError(err, `Error generated during evaluation of expression: '${exp}'. Have all variables been resolved? Returning default value of 0.`)
   }
   return result
 }

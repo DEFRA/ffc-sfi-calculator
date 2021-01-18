@@ -1,5 +1,5 @@
 const server = require('./server')
-const { log } = require('./services/logger')
+const { log, logError } = require('./services/logger')
 
 const init = async () => {
   const agreementChangedAction = require('./messaging/agreement-changed')
@@ -10,7 +10,7 @@ const init = async () => {
 }
 
 process.on('unhandledRejection', (err) => {
-  log(err)
+  logError(err)
   process.exit(1)
 })
 
