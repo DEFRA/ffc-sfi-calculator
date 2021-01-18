@@ -1,4 +1,5 @@
 const { eval: eeval, parse } = require('expression-eval')
+const { log } = require('../services/logger')
 
 function evalExpression (ctx, exp) {
   let result = 0
@@ -6,7 +7,7 @@ function evalExpression (ctx, exp) {
     const ast = parse(exp)
     result = eeval(ast, ctx)
   } catch (err) {
-    console.error(`Error generated during evaluation of expression: '${exp}' with context: '${JSON.stringify(ctx)}'. Have all variables been resolved? Returning default value of 0.`, err)
+    log(`Error generated during evaluation of expression: '${exp}' with context: '${JSON.stringify(ctx)}'. Have all variables been resolved? Returning default value of 0.`, err)
   }
   return result
 }
@@ -23,13 +24,13 @@ function selectExpression (ctx) {
       return calcs[i].expression
     }
   }
-  console.error('No conditions were matched to provide an expression. Check the coverage of the conditions. Default expression will be used.')
+  log('No conditions were matched to provide an expression. Check the coverage of the conditions. Default expression will be used.')
   return 'userInput * paymentRate'
 }
 
 function calcPayment (standard) {
   const exp = selectExpression(standard)
-  console.log(`Calculation expression used for '${standard.id}' - '${exp}'`)
+  log(`Calculation expression used for '${standard.id}' - '${exp}'`)
   return evalExpression(standard, exp)
 }
 

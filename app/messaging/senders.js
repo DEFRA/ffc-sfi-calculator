@@ -1,5 +1,6 @@
-const msgCfg = require('../config/messaging')
 const { MessageSender } = require('ffc-messaging')
+const msgCfg = require('../config/messaging')
+const { log } = require('../services/logger')
 
 let agreementSender
 
@@ -30,7 +31,7 @@ module.exports = {
     agreementSender = new MessageSender(msgCfg.updateAgreementQueue)
     await agreementSender.connect()
     const msg = createMsg(agreementData)
-    console.log('sending message', msg)
+    log('sending message', msg)
     await agreementSender.sendMessage(msg)
     await agreementSender.closeConnection()
   }
