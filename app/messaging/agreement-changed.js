@@ -24,25 +24,33 @@ function selectExpression (ctx) {
       return calcs[i].expression
     }
   }
-  log('No conditions were matched to provide an expression. Check the coverage of the conditions. Default expression will be used.')
-  return 'userInput * paymentRate'
+  throw new Error('No conditions were matched to provide an expression. Check the coverage of the conditions.')
 }
 
-function calcPayment (standard) {
-  const exp = selectExpression(standard)
-  log(`Calculation expression used for '${standard.id}' - '${exp}'`)
-  return evalExpression(standard, exp)
+/**
+ * @param {Object} ctx - An object with an `id` prop and a `calculations` prop
+ * that is itself an array of objects containing two properties, both strings.
+ * `condition` - used to determine if it will be used
+ * `expression`- an expression that will be evaluated by `expression-eval`, if
+ * the condition is true
+ */
+function calcPayment (ctx) {
+  const exp = selectExpression(ctx)
+  log(`Calculation expression used for '${ctx.id}' - '${exp}'`)
+  return evalExpression(ctx, exp)
 }
 
 module.exports = async function (msg) {
   const { body, correlationId } = msg
-  let totalPayment = 0
 
-  Object.entries(body).forEach(([id, standard]) => {
+  const { standards } = body
+  Object.entries(standards).forEach(([id, standard]) => {
     const payment = calcPayment(standard)
-    body[id].payment = payment
-    totalPayment += payment
+    standards[id].payment = payment
   })
+
+  const totalPayment = calcPayment(body)
+
   body.totalPayment = totalPayment
   await require('./senders').updateAgreement({ body, correlationId })
 }
