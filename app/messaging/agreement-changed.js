@@ -24,7 +24,7 @@ function selectExpression (ctx) {
       return calcs[i].expression
     }
   }
-  throw new Error('No conditions were matched to provide an expression. Check the coverage of the conditions. Default expression will be used.')
+  throw new Error('No conditions were matched to provide an expression. Check the coverage of the conditions.')
 }
 
 /**
