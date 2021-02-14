@@ -46,11 +46,26 @@ module.exports = async function (msg) {
   const { standards } = body
   Object.entries(standards).forEach(([id, standard]) => {
     const payment = calcPayment(standard)
-    standards[id].payment = payment
+    if (!isNaN(payment)) {
+      standards[id].payment = payment
+    }
+    standards[id].optionalActions.forEach(a => {
+      const payment = calcPayment(a)
+      if (!isNaN(payment)) {
+        a.payment = payment
+      }
+    })
   })
 
-  const totalPayment = calcPayment(body)
+  const selectedStandards = Object.values(standards).filter(s => s.selected)
+  const standardsPayment = selectedStandards.reduce((acc, cur) => { acc += cur.payment; return acc }, 0)
+  const actionsPayment = selectedStandards.reduce((acc, cur) => { acc += cur.optionalActions.reduce((aacc, acur) => { aacc += acur.payment; return aacc }, 0); return acc }, 0)
 
-  body.totalPayment = totalPayment
+  body.payments = {
+    actionsPayment,
+    standardsPayment,
+    totalPayment: actionsPayment + standardsPayment
+  }
+  console.log(JSON.stringify(body, null, 2))
   await require('./senders').updateAgreement({ body, correlationId })
 }
