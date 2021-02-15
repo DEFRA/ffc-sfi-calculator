@@ -34,23 +34,12 @@ function selectExpression (ctx) {
  * `expression`- an expression that will be evaluated by `expression-eval`, if
  * the condition is true
  */
-function calcPayment (ctx) {
+function calculatePayment (ctx) {
   const exp = selectExpression(ctx)
   log(`Calculation expression used for '${ctx.id}' - '${exp}'`)
   return evalExpression(ctx, exp)
 }
 
-module.exports = async function (msg) {
-  const { body, correlationId } = msg
-
-  const { standards } = body
-  Object.entries(standards).forEach(([id, standard]) => {
-    const payment = calcPayment(standard)
-    standards[id].payment = payment
-  })
-
-  const totalPayment = calcPayment(body)
-
-  body.totalPayment = totalPayment
-  await require('./senders').updateAgreement({ body, correlationId })
+module.exports = {
+  calculatePayment
 }
