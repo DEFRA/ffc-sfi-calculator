@@ -1,4 +1,5 @@
 const { calculatePayment } = require('../services/payment-calculator')
+const { updateAgreement } = require('./senders')
 
 module.exports = async function (msg) {
   const { body, correlationId } = msg
@@ -12,5 +13,5 @@ module.exports = async function (msg) {
   const totalPayment = calculatePayment(body)
 
   body.totalPayment = totalPayment
-  await require('./senders').updateAgreement({ body, correlationId })
+  await updateAgreement({ body, correlationId })
 }
