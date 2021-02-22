@@ -2,7 +2,7 @@ const { MessageSender } = require('ffc-messaging')
 const msgCfg = require('../config/messaging')
 const { log } = require('../services/logger')
 
-let agreementSender
+const agreementSender = new MessageSender(msgCfg.updateAgreementQueue)
 
 const createMsg = (agreementData) => {
   const msgBase = {
@@ -28,11 +28,8 @@ process.on('SIGINT', async () => {
 
 module.exports = {
   updateAgreement: async function (agreementData) {
-    agreementSender = new MessageSender(msgCfg.updateAgreementQueue)
-    await agreementSender.connect()
     const msg = createMsg(agreementData)
     log('sending message', msg)
     await agreementSender.sendMessage(msg)
-    await agreementSender.closeConnection()
   }
 }
