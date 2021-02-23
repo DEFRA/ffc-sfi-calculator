@@ -1,6 +1,6 @@
 const { calculatePayment } = require('../services/payment-calculator')
 const { updateAgreement } = require('./senders')
-const { logError } = require('./services/logger')
+const { logError } = require('../services/logger')
 
 module.exports = async function (msg, calculatorReceiver) {
   try {
