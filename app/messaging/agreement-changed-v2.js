@@ -1,5 +1,6 @@
 const { calculatePayment } = require('../services/payment-calculator')
 const { updateAgreement } = require('./senders')
+const { logError } = require('./services/logger')
 
 module.exports = async function (msg, calculatorReceiver) {
   try {
@@ -32,7 +33,7 @@ module.exports = async function (msg, calculatorReceiver) {
 
     await calculatorReceiver.completeMessage(msg)
   } catch (err) {
-    console.error('Unable to process message:', err)
+    logError(err, 'Unable to process agreement changed v2 message')
     await calculatorReceiver.abandonMessage(msg)
   }
 }
