@@ -27,9 +27,15 @@ process.on('SIGINT', async () => {
 })
 
 module.exports = {
-  updateAgreement: async function (agreementData) {
-    const msg = createMsg(agreementData)
-    log('sending message', msg)
-    await agreementSender.sendMessage(msg)
+  updateAgreement: async function (agreementData, calculatorReceiver, receivedMsg) {
+    try {
+      const msg = createMsg(agreementData)
+      log('sending message', msg)
+      await agreementSender.sendMessage(msg)
+      await calculatorReceiver.completeMessage(receivedMsg)
+    } catch (err) {
+      console.error('Unable to process message:', err)
+      await calculatorReceiver.abandonMessage(receivedMsg)
+    }
   }
 }
