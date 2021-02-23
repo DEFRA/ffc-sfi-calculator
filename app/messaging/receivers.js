@@ -18,8 +18,9 @@ process.on('SIGINT', async () => {
 })
 
 module.exports = {
-  startAgreementChanged: async function (msgAction) {
-    calculatorReceiver = new MessageReceiver(msgCfg.agreementCalculatorSubscription, msgAction)
-    await calculatorReceiver.connect()
+  startAgreementChanged: async function (agreementChanged) {
+    const updateAction = msg => agreementChanged(msg, calculatorReceiver)
+    calculatorReceiver = new MessageReceiver(msgCfg.agreementCalculatorSubscription, updateAction)
+    await calculatorReceiver.subscribe()
   }
 }
