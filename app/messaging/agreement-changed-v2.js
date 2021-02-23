@@ -28,11 +28,8 @@ module.exports = async function (msg, calculatorReceiver) {
       standardsPayment,
       totalPayment: actionsPayment + standardsPayment
     }
-    await updateAgreement({ body, correlationId })
-
-    await calculatorReceiver.completeMessage(msg)
+    await updateAgreement({ body, correlationId }, calculatorReceiver, msg)
   } catch (err) {
     console.error('Unable to process message:', err)
-    await calculatorReceiver.abandonMessage(msg)
   }
 }
